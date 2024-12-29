@@ -3,6 +3,7 @@ import serial
 import time
 import fputils as fp
 
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -13,7 +14,7 @@ def home():
 def empty():
     if fp.init():
         fp.empty_database()
-        fp.arduino.close()
+        fp.led(fp.LED_BREATHING, 5)
         return "Database emptied"
     else:
         return "Initialization failed"
@@ -25,7 +26,6 @@ def enroll():
         fp.read_fingerprint(2)
         fp.create_model()
         fp.store_model(10)
-        fp.arduino.close()
         return "Fingerprint enrolled and stored"
     else:
         return "Initialization failed"
@@ -35,10 +35,13 @@ def read():
     if fp.init():
         fp.read_fingerprint(1)
         ret = fp.finger_search()
-        fp.arduino.close()
         return f"Fingerprint read: {ret}"
     else:
         return "Initialization failed"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # if fp.init():
+    #     fp.empty_database()
+    #     fp.led(fp.LED_BREATHING, 5)
+
+    app.run(debug=False)
