@@ -7,11 +7,15 @@
 </head>
 <body>
     <h1><a href="/">Fingerprint Control</a></h1>
-    <button onclick="location.href='/empty'">Empty Database</button>
-    <button onclick="location.href='/enroll'">Enroll Fingerprint</button>
-    <button onclick="location.href='/read'">Read Fingerprint</button>
-    <p>
-    {{message}}
-    </p>    
+    <form action="/empty" method="post">
+        <button type="submit">Empty Database</button>
+    </form>
+    <form action="/enroll" method="get">
+        <button type="submit">Enroll Fingerprint</button>
+    </form>
+    <form action="/read" method="post">
+        <button type="submit">Read Fingerprint</button>
+    </form>
+    <p>{{ message }}</p>    
 </body>
 </html>

@@ -1,5 +1,5 @@
 import json
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 import serial
 import time
 import fputils as fp
@@ -46,20 +46,25 @@ def empty():
     else:
         return render_template('index.html', message='Initialization failed')
 
-@app.route('/enroll')
+@app.route('/enroll', methods=['GET', 'POST'])
 def enroll():
-    if fp.init():
-        fp.read_fingerprint(1)
-        fp.read_fingerprint(2)
-        fp.create_model()
-        id = findnextid()
-        fp.store_model(id)
-        users[id] = {'id': id, 'name': None, 'age': None}
-        save_users()
-        fp.led(fp.LED_BREATHING, fp.LED_BLUE)
-        return render_template('index.html', message='Fingerprint enrolled and stored at location ' + str(id))
-    else:
-        return render_template('index.html', message='Initialization failed')
+    if request.method == 'POST':
+        name = request.form['name']
+        age = request.form['age']
+        if fp.init():
+            fp.read_fingerprint(1)
+            fp.read_fingerprint(2)
+            fp.create_model()
+            id = findnextid()
+            fp.store_model(id)
+            users[id] = {'id': id, 'name': name, 'age': age}
+            save_users()
+            fp.led(fp.LED_BREATHING, fp.LED_BLUE)
+            message = f"Fingerprint enrolled and stored at location {id}"
+        else:
+            message = "Initialization failed"
+        return redirect(url_for('home', message=message))
+    return render_template('enroll.html')
 
 @app.route('/read')
 def read():
@@ -79,10 +84,7 @@ def read():
         return render_template('index.html', message='Initialization failed')
 
 if __name__ == "__main__":
-    # if fp.init():
-    #     fp.empty_database()
-    #     fp.led(fp.LED_BREATHING, 5)
-    
+
     if fp.arduino == None:
         fp.arduino = serial.Serial(port='COM3', baudrate=9600, timeout=1)  # Replace 'COM3' with your Arduino's port
         time.sleep(2)
@@ -96,5 +98,4 @@ if __name__ == "__main__":
     else:
         fp.led(fp.LED_BREATHING, fp.LED_WHITE)
 
-
-    app.run(debug=False)
+    app.run(debug=False, host='0.0.0.0')
