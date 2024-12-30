@@ -31,7 +31,7 @@ def home():
     if fp.init():
         fp.led(fp.LED_ON, 7)
 
-    return render_template('index.html', message='')
+    return render_template('index.html', message=users)
 
 @app.route('/empty')
 def empty():
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     
     if fp.arduino == None:
         fp.arduino = serial.Serial(port='COM3', baudrate=9600, timeout=1)  # Replace 'COM3' with your Arduino's port
-        time.sleep(1)
+        time.sleep(2)
         fp.init()
         fp.led(fp.LED_BREATHING, fp.LED_WHITE)
 
