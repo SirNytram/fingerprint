@@ -3,19 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fingerprint Control</title>
+    <title>Fingerprint Control</title>`
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1><a href="/">Fingerprint Control</a></h1>
-    <form action="/empty" method="post">
-        <button type="submit">Empty Database</button>
-    </form>
-    <form action="/enroll" method="get">
-        <button type="submit">Enroll Fingerprint</button>
-    </form>
-    <form action="/read" method="post">
-        <button type="submit">Read Fingerprint</button>
-    </form>
-    <p>{{ message }}</p>    
+    <div class="container mt-5">
+        <h1 class="text-center"><a href="/" class="text-decoration-none">Fingerprint Control</a></h1>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <form action="/empty" method="post">
+                    <button type="submit" class="btn btn-danger btn-block">Empty Database</button>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form action="/enroll" method="get">
+                    <button type="submit" class="btn btn-primary btn-block">Enroll Fingerprint</button>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form action="/read" method="post">
+                    <button type="submit" class="btn btn-success btn-block">Read Fingerprint</button>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <p class="text-center">{{ message }}</p>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
